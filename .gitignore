@@ -6,3 +6,5 @@
 
 # VSCode files
 *.vscode
+experimental_data/*
+results/*
