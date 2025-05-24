@@ -173,6 +173,7 @@ plt.show()
 fig_colorbar.show()
 
 # =========================Perform PCA=========================
+
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
@@ -209,13 +210,24 @@ pca_result = pca.fit_transform(scaled_data)
 clean_data['PCA1'] = pca_result[:, 0]
 clean_data['PCA2'] = pca_result[:, 1]
 
+# Add column grouping based on total protein
+clean_data['Protein Category'] = ['High' if protein > 10000 else ('Moderate' if protein > 5000 else 'Low') for protein in clean_data['Total protein']]
+
+palette = {
+    'Low': '#171738',
+    'Moderate': '#593C8F',
+    'High': '#DB5461'
+}
+
 # Visualize the PCA results
 plt.figure()
 sns.scatterplot(
     x='PCA1', 
     y='PCA2', 
     data=clean_data, 
-    color='black',
+    hue='Protein Category',
+    palette=palette,
+    hue_order=['Low', 'Moderate', 'High'],  # Specify legend order
     s=100
 )
 plt.title('PCA Visualization')
